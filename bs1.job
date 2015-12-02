@@ -1,0 +1,8 @@
+#PBS -N spreading1
+#PBS -l walltime=36:00:00
+#PBS -l nodes=1:ppn=12
+#PBS -j oe
+
+
+module load matlab/r2014a
+matlab -nodisplay -r crs1

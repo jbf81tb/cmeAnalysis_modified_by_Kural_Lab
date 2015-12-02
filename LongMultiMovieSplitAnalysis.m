@@ -1,10 +1,4 @@
-function LongMultiMovieSplitAnalysis(movies,MaxSectionSize,newmovies,framegap,bg_movie)
-if strcmp(bg_movie((end-7):end),'none.tif'), 
-    no_remove = true; 
-else
-    no_remove=false;
-    bg = imread(bg_movie);
-end
+function LongMultiMovieSplitAnalysis(movies,MaxSectionSize,newmovies,framegap)
 for im=1:length(movies)
     movie=movies{im};
     frames=length(imfinfo(movie));
@@ -29,17 +23,8 @@ for im=1:length(movies)
                        'ch1');
         mkdir(nmd{i});
         nmn{i} = fullfile(nmd{i},['section',num2str(i),'.tif']); %new movie name
-        
-        if ~exist(nmn{i},'file')
-            if strcmp(movie(end-6:end-4),'bgr') || no_remove
-                MovieShortenerF(movie,nmn{i},start(i),stop(i))
-            else
-                MovieShortenerF_bgr(movie,nmn{i},start(i),stop(i),bg);
-            end
-        end
-        
+        MovieShortenerF(movie,nmn{i},start(i),stop(i))
         cmeAnalysis('Parameters', [1.45, 100, 16], 'condDir', fullfile(newmovies{im},['Section',num2str(i)]), 'chNames', {'ch1'}, 'markers', {'egfp'}, 'Master', 1);
-        
     end
 end
 end

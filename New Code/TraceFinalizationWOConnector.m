@@ -51,25 +51,11 @@ for i1=1:size(fxyc,3) %Make end detection more lax if there is nothing around fo
     end
     end
 end
-i = 0;
-fxyc_struct = struct('frame',[],'xpos',[],'ypos',[],'class',0,'int',[]);
-for j = 1:size(fxyc,3)
-    during = squeeze(fxyc(:,1,j)>0);
-    if isempty(during), continue; end
-    i = i+1;
-    fxyc_struct(i).frame = fxyc(during,1,j);
-    fxyc_struct(i).xpos = fxyc(during,2,j);
-    fxyc_struct(i).ypos = fxyc(during,3,j);
-    fxyc_struct(i).class = fxyc(1,4,j);
-    fxyc_struct(i).int = fxyc(during,5,j);
-    fxyc_struct(i).lt = fxyc_struct(i).frame(end)-fxyc_struct(i).frame(1)+1;
-end
-    
 
 Threshfxyc=fxyc; %#ok<NASGU>
 % [TraceX,TraceY,TraceZ,TraceINT]=fxyc2TraceXY(fxyc,frames,3); %If non green traces are mostly correct use 3, if mostly only green are use 2
 % [TraceX,TraceY,TraceZ,TraceINT]=HoleFiller(TraceX,TraceY,TraceZ,TraceINT);
 %save Comp2Traces.mat TraceX TraceY TraceZ TraceINT
 [save_loc, trace_name, ~] = fileparts(file);
-save(fullfile(save_loc,[trace_name,'.mat']), 'Threshfxyc','fxyc_struct','-v7.3')
+save(fullfile(save_loc,[trace_name,'.mat']), 'Threshfxyc','-v7.3')
 end

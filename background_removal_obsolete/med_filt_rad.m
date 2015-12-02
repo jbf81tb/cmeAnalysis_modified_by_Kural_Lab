@@ -3,7 +3,7 @@ function [ res_img ] = med_filt_rad( A, r )
 %   Detailed explanation goes here
 if ischar(A)
     img = imread(A);
-elseif isnumeric(A)
+elseif isnumeric(A)&&ismatrix(A)
     img = A;
 else
     error('Image must either be filename or 2D matrix');
