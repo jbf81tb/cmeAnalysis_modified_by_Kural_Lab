@@ -1,8 +1,4 @@
-function LongMoviePostCME_osc(smd,omd)
-
-loaded_vars = load(fullfile(smd,'threshs.mat'),'Threshs','sections');
-Threshs = loaded_vars.Threshs;
-sections = loaded_vars.sections;
+function LongMoviePostCME_osc(smd,omd,Threshs,sections)
 
 tmpd = dir(fullfile(omd,'*.tif'));
 orig_movies = cell(length(tmpd),1);
@@ -40,7 +36,7 @@ for i9=1:movies
     if exist(fullfile(save_loc,[trace_name,'.mat']),'file')
         continue;
     end
-    Thresh=Threshs{i9};
+    Thresh=Threshs(i9);
     for i = 1:sections(i9)
         if ~exist(fullfile(fileparts(paths{i,i9}),'TempTraces.mat'),'file')
             SimplifiedTrackWrapperNewEndDetectionNoRounding(paths{i,i9},Thresh,moviename{i,i9}, 4,1,0,.75);
