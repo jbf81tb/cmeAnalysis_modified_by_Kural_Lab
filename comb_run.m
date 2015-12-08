@@ -9,14 +9,14 @@ function comb_run
 % REMINDER: '~' is the home directory, something like '/nfs/##/osu####/'
 %           Basically, it's where you start out.
 
-gen_dir = pwd;
-addpath(genpath(fullfile(gen_dir,'Matlab_stuff'))); %%% Adjust based on personal OSC directory setup
 %%%%%%% Adjust %%%%%%%
-exp_name = 'spreading1';
-framegap = [1,1,2,2,2,3,3]; 
+exp_name = 'mb1_z0.4um_t1s002_good';
+framegap = ones(1,22);
+Threshs = 400*ones(1,22);
+sections = ones(1,22);
 %%%%%%%%%%%%%%%%%%%%%%
-omd = fullfile(gen_dir,exp_name,'orig_movies'); %experiment directory (should use this templating)
-smd = fullfile(gen_dir,exp_name,'split_movies');
+omd = fullfile(exp_name,'orig_movies'); %experiment directory (should use this templating)
+smd = fullfile(exp_name,'split_movies');
 
 tmpd = dir(fullfile(omd,'*.tif'));
 movies      = cell(length(tmpd),1);
@@ -33,5 +33,5 @@ sectionsize = 500;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 LongMultiMovieSplitAnalysis(movies,sectionsize,splitmovies,framegap);
-
+LongMoviePostCME_osc(smd,omd,Threshs,sections);
 end
