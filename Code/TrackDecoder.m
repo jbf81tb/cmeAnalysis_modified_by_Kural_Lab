@@ -1,6 +1,13 @@
 function [TraceX,TraceY,TraceINT,TraceF]=TrackDecoder(path,frames,Thresh,dThresh,aThresh)
 
 load(path) %automate file detection
+if isempty(tracks), 
+    TraceX = [];
+    TraceY = [];
+    TraceINT = [];
+    TraceF = [];
+    return; 
+end
 [~,TOTtraces]=size(tracks);
 
 tracksx=table({tracks.x}.','VariableNames',{'x'});

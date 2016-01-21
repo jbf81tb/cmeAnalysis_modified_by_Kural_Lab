@@ -12,7 +12,7 @@ function TraceFinalizationWOConnector(fxyc,Thresh,file,endsize2,~,slopebound,R2B
 % endfade=.5;
 % endsize=2;
 
-
+if isempty(fxyc), return; end
 fxyc=CalculateNNOptimized(fxyc);
 %[fxyc,num]=TrackConnectorWNNConsiderations(fxyc,Thresh,dThresh2,aThresh2,fThresh);
 fxyc=Holefillerfxyc(fxyc);

@@ -23,6 +23,11 @@ for i = 1:movies
         tmpd = dir(tmpn);
         moviefol{i2,i} = fullfile(tmpn,tmpd(3).name,'ch1');
         paths{i2,i} = fullfile(moviefol{i2,i},'Tracking','ProcessedTracks.mat');
+        if ~exist(paths{i2,i},'file')
+            tracks = [];
+            processingInfo = [];
+            save(paths{i2,i},'tracks','processingInfo')
+        end
         tmpd = dir(fullfile(moviefol{i2,i},'*.tif'));
         moviename{i2,i} = fullfile(moviefol{i2,i},tmpd.name);
         if i2==1

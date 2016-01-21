@@ -351,7 +351,18 @@ for iFrame = 1 : numFrames-1
                     rowEnd = rowEnd + numTracksWorstCase;
                     rowStart = rowStart + numTracksWorstCase;
                 end
-                
+%                 if isempty(indx1U)||...
+%                    isempty(rowStart)||...
+%                    isempty(rowEnd)||...
+%                    isempty(iFrame)
+%                     return; 
+%                 end
+%                 if any(indx1U<0)||~all(isinteger(indx1U))||...
+%                    rowStart<0   ||~isinteger(rowStart)||...
+%                    rowEnd<0     ||~isinteger(rowEnd)||...
+%                    iFrame<0     ||~isinteger(iFrame)
+%                     return;
+%                 end
                 %move rows of tracks that are not connected to points in
                 %2nd frame to auxilary matrix
                 trackedFeatureIndxAux(rowStart:rowEnd,1:iFrame) = trackedFeatureIndx(indx1U,:);

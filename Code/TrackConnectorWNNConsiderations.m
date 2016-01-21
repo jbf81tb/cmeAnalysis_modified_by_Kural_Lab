@@ -1,5 +1,8 @@
 function [fxyc,num]=TrackConnectorWNNConsiderations(fxyc,Thresh,dThresh2,aThresh,fThresh) %aThresh no longer incorporated after it caused an unfortunate trace split--cmeAnalysis amplitude may be dependent on the past/future of the trace
-
+if isempty(fxyc)
+    num = 0;
+    return;
+end
 [A,~,B]=size(fxyc);
 startfxyi=zeros(B,4);
 finishfxyi=zeros(B,4);

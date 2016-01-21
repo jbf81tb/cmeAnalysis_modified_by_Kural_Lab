@@ -1,5 +1,5 @@
 function fxyc=Holefillerfxyc(fxyc)
-
+if isempty(fxyc), return; end
 [a,b,c]=size(fxyc);
 for i1=1:c
     first=find(fxyc(:,1,i1),1,'first');

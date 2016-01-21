@@ -369,7 +369,7 @@ else %if not self-adaptive, link in one round only
     clear dummy
 
 end
-
+% if isempty(tracksCoordAmpLink), return; end
 %% post-processing of linking results
 
 

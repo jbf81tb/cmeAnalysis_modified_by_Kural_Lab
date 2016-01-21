@@ -1,6 +1,6 @@
 function fxyc=CalculateFutureNNOptimized(fxyc) %Record NN (where the neighbors are found in the next (next next)) distance in 12th (13th) slot of fxyc for last frame in the trace
 %Record NN (where the neighbors are found in the previous (previous previous)) distance in 12th (13th) slot of fxyc for first frame in the trace
-
+if isempty(fxyc), return; end
 [~,~,a]=size(fxyc);
 frames=max(max(fxyc(:,1,:)));
 % h=waitbar(0,'Finding Nearest Neighbor Distances');

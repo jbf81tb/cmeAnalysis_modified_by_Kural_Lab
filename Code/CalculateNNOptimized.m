@@ -1,5 +1,5 @@
 function fxyc=CalculateNNOptimized(fxyc) %Record average NN distance in 11th slot of fxyc
-
+if isempty(fxyc), return; end
 [~,~,a]=size(fxyc);
 frames=max(max(fxyc(:,1,:)));
 % h=waitbar(0,'Finding Nearest Neighbor Distances');

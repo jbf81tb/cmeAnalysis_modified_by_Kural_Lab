@@ -92,7 +92,7 @@ index=1;
 index2=1;
 spotIndex=1;
 track=1;
-clear fxyc
+fxyc = [];
 for i=1:TraceNum
     clear inds
     
@@ -317,6 +317,12 @@ end
 fxyc=CalculateNNOptimized(fxyc);
 [fxyc,num]=TrackConnectorWNNConsiderations(fxyc,Thresh,dThresh2,aThresh2,fThresh);
 fxyc=Holefillerfxyc(fxyc);
+if isempty(fxyc)
+    [save_loc, ~, ~] = fileparts(path);
+    Threshfxyc = fxyc;
+    save(fullfile(save_loc, 'TempTraces.mat'), 'Threshfxyc');
+    return; 
+end
 BackgroundSample=[];
 for i1=1:length(fxyc(1,1,:)) %Estimate background intensity by averaging the min intensity of traces
     used=find(fxyc(:,1,i1));
@@ -330,7 +336,7 @@ backgroundSD=sqrt(var(BackgroundSample));
 fxyc=TrackSplitter(fxyc,Thresh,slopebound,R2Bound,endsize2,background,backgroundSD); %split any traces that have suspicious drops in intensity in the middle or before the beginning or end
 [TraceX,TraceY,TraceZ,TraceINT]=fxyc2TraceXY(fxyc,frames,5); %Once tracks are connected, we need to redo the color choosing so we convert to TraceX then back to fxyc
 %[TraceX,TraceY,TraceINT]=TraceFiller(TraceX,TraceY,TraceINT);
-clear fxyc
+fxyc = [];
 [TraceNum,~]=size(TraceX);
 T=0;
 minlength=5;
@@ -670,6 +676,12 @@ rsqf=0;
             end
         end
     end
+end
+if isempty(fxyc)
+    [save_loc, ~, ~] = fileparts(path);
+    Threshfxyc = fxyc;
+    save(fullfile(save_loc, 'TempTraces.mat'), 'Threshfxyc');
+    return; 
 end
 fxyc=CalculateFutureNNOptimized(fxyc); %Calculate NN distances for use in end decision
 [a,b,c]=size(fxyc);
