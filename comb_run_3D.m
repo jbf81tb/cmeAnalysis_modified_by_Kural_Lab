@@ -1,4 +1,4 @@
-function comb_run_3D(exp_name,fg,tstacks,zstacks,make,do,varargin)
+function comb_run_3D(exp_name,fg,tstacks,zstacks,varargin)
 %COMB_RUN_3D Perform cmeAnalysis on multiple 3D movies taken over time.
 %exp_name: folder where movies are. should have a 'background' folder and
 %a 'movies' folder
@@ -13,17 +13,16 @@ function comb_run_3D(exp_name,fg,tstacks,zstacks,make,do,varargin)
 %The last argument can be a threshold value. 400 is usually good, but can
 %be changed to something like 1000 if the movie is particularly bright.
 
-if nargin<7
+if nargin<5
     Th = 400;
-elseif nargin == 7
+elseif nargin == 5
     Th = varargin{1};
 end
-
 sectionsize = 500;
 md = fullfile(exp_name,'movies');
 mdir = dir(fullfile(md,'*.tif'));
 nm = length(mdir);
-for mov = 1:nm
+for mov = nm:nm
     mov_fol = fullfile(md,mdir(mov).name(1:end-4));
     mkdir(mov_fol);
     omd = fullfile(mov_fol,'orig_movies');
@@ -41,14 +40,12 @@ for mov = 1:nm
         zlps = zstacks;
     end
     
-    if make
-        for st = 1:zlps
-            for fr = 1:mlps
-                frame = imread(fullfile(md,mdir(mov).name),(fr-1)*zlps+st);
-                imwrite(frame,fullfile(omd,['Stack_' num2str(st) '.tif']),'tif','writemode','append');
-            end
+    for st = 1:zlps
+        if exist(fullfile(omd,['Stack_' num2str(st) '.tif']),'file'), continue; end
+        for fr = 1:mlps
+            frame = imread(fullfile(md,mdir(mov).name),(fr-1)*zlps+st);
+            imwrite(frame,fullfile(omd,['Stack_' num2str(st) '.tif']),'tif','writemode','append');
         end
-        if ~do, return; end
     end
     
     if length(fg)==1
@@ -70,12 +67,10 @@ for mov = 1:nm
     for i = 1:length(movies)
         movies{i} = fullfile(omd,tmpd(i).name);
         splitmovies{i} = fullfile(smd,tmpd(i).name(1:(end-4)));
-        mkdir(splitmovies{i});
+        if ~exist(splitmovies{i},'dir'), mkdir(splitmovies{i}); end
     end
 
-    if do
-        LongMultiMovieSplitAnalysis(movies,sectionsize,splitmovies,framegap);
-        LongMoviePostCME_osc(smd,omd,Threshs,sections);
-    end
+    LongMultiMovieSplitAnalysis(movies,sectionsize,splitmovies,framegap);
+    LongMoviePostCME_osc(smd,omd,Threshs,sections);
 end
 end
