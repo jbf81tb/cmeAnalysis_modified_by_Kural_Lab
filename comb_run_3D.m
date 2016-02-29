@@ -22,7 +22,7 @@ sectionsize = 500;
 md = fullfile(exp_name,'movies');
 mdir = dir(fullfile(md,'*.tif'));
 nm = length(mdir);
-for mov = nm:nm
+for mov = 1:nm
     mov_fol = fullfile(md,mdir(mov).name(1:end-4));
     mkdir(mov_fol);
     omd = fullfile(mov_fol,'orig_movies');
