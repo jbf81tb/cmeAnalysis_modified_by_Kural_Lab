@@ -9,7 +9,7 @@ function comb_run(exp_name,varargin)
 % 4) Number of sections the movie will be divided into. Default section
 % size is 500, so if the movie is longer than 500 frames it will be more
 % than 1 section.
-% 4) Section size. This variable exists for memory considerations. 
+% 4) Section size. This variable exists for memory considerations.
 %
 % Any argument may be a scalar or vector. Use a scalar if all the movies
 % share the necessary properties. Use a vector if you need to specify
@@ -22,67 +22,68 @@ omd = fullfile(exp_name,'orig_movies');
 tmpd = dir(fullfile(omd,'*.tif'));
 movies      = cell(length(tmpd),1);
 %% Input checking
-if nargin==1
-    framegap = 1*ones(length(movies),1);
-    Threshs = 400*ones(length(movies),1);
-    sections = 1*ones(length(movies),1);
-    sectionsize = 500;
-elseif nargin==2
-    if length(varargin{1})>1
-        framegap = varargin{1};
-    elseif  isscalar(varargin{1})
-        framegap = varargin{1}*ones(length(movies),1);
-    end
-    Threshs = 400*ones(length(movies),1);
-    sections = 1*ones(length(movies),1);
-    sectionsize = 500;
-elseif nargin==3
-    if length(varargin{1})>1
-        framegap = varargin{1};
-    elseif  isscalar(varargin{1})
-        framegap = varargin{1}*ones(length(movies),1);
-    end
-    if length(varargin{2})>1
-        Threshs = varargin{2};
-    elseif  isscalar(varargin{2})
-        Threshs = varargin{2}*ones(length(movies),1);
-    end
-    sections = 1*ones(length(movies),1);
-    sectionsize = 500;
-elseif nargin==4
-    if length(varargin{1})>1
-        framegap = varargin{1};
-    elseif  isscalar(varargin{1})
-        framegap = varargin{1}*ones(length(movies),1);
-    end
-    if length(varargin{2})>1
-        Threshs = varargin{2};
-    elseif  isscalar(varargin{2})
-        Threshs = varargin{2}*ones(length(movies),1);
-    end
-    if length(varargin{3})>1
-        sections = varargin{3};
-    elseif  isscalar(varargin{3})
-        sections = varargin{3}*ones(length(movies),1);
-    end
-    sectionsize = 500;
-elseif nargin==5
-    if length(varargin{1})>1
-        framegap = varargin{1};
-    elseif  isscalar(varargin{1})
-        framegap = varargin{1}*ones(length(movies),1);
-    end
-    if length(varargin{2})>1
-        Threshs = varargin{2};
-    elseif  isscalar(varargin{2})
-        Threshs = varargin{2}*ones(length(movies),1);
-    end
-    if length(varargin{3})>1
-        sections = varargin{3};
-    elseif  isscalar(varargin{3})
-        sections = varargin{3}*ones(length(movies),1);
-    end
-    sectionsize = varargin{4};
+switch nargin
+    case 1
+        framegap = 1*ones(length(movies),1);
+        Threshs = 400*ones(length(movies),1);
+        sections = 1*ones(length(movies),1);
+        sectionsize = 500;
+    case 2
+        if length(varargin{1})>1
+            framegap = varargin{1};
+        elseif  isscalar(varargin{1})
+            framegap = varargin{1}*ones(length(movies),1);
+        end
+        Threshs = 400*ones(length(movies),1);
+        sections = 1*ones(length(movies),1);
+        sectionsize = 500;
+    case 3
+        if length(varargin{1})>1
+            framegap = varargin{1};
+        elseif  isscalar(varargin{1})
+            framegap = varargin{1}*ones(length(movies),1);
+        end
+        if length(varargin{2})>1
+            Threshs = varargin{2};
+        elseif  isscalar(varargin{2})
+            Threshs = varargin{2}*ones(length(movies),1);
+        end
+        sections = 1*ones(length(movies),1);
+        sectionsize = 500;
+    case 4
+        if length(varargin{1})>1
+            framegap = varargin{1};
+        elseif  isscalar(varargin{1})
+            framegap = varargin{1}*ones(length(movies),1);
+        end
+        if length(varargin{2})>1
+            Threshs = varargin{2};
+        elseif  isscalar(varargin{2})
+            Threshs = varargin{2}*ones(length(movies),1);
+        end
+        if length(varargin{3})>1
+            sections = varargin{3};
+        elseif  isscalar(varargin{3})
+            sections = varargin{3}*ones(length(movies),1);
+        end
+        sectionsize = 500;
+    case 5
+        if length(varargin{1})>1
+            framegap = varargin{1};
+        elseif  isscalar(varargin{1})
+            framegap = varargin{1}*ones(length(movies),1);
+        end
+        if length(varargin{2})>1
+            Threshs = varargin{2};
+        elseif  isscalar(varargin{2})
+            Threshs = varargin{2}*ones(length(movies),1);
+        end
+        if length(varargin{3})>1
+            sections = varargin{3};
+        elseif  isscalar(varargin{3})
+            sections = varargin{3}*ones(length(movies),1);
+        end
+        sectionsize = varargin{4};
 end
 %% Making folders
 smd = fullfile(exp_name,'split_movies');
@@ -97,7 +98,7 @@ for i = 1:length(movies)
     mkdir(splitmovies{i});
 end
 %% Actual Execution
-LongMultiMovieSplitAnalysis(movies,sectionsize,splitmovies,framegap);
-clear functions
+% LongMultiMovieSplitAnalysis(movies,sectionsize,splitmovies,framegap);
+% clear functions
 LongMoviePostCME_osc(smd,omd,Threshs,sections);
 end
