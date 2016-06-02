@@ -656,12 +656,12 @@ rsqf=0;
                     end
                     if ends==9 %has a start but hits end of movie: Useful for initiation histogram
                         fxyc(j-start+1,4,track)=5;
+                    elseif ends==6 %has an end but hits the beginning of movie
+                        fxyc(j-start+1,4,track)=6;
+                    elseif ends==12
+                        fxyc(j-start+1,4,track)=8;
                     else
-                        if ends==6 %has an end but hits the beginning of movie
-                            fxyc(j-start+1,4,track)=6;
-                        else
-                            fxyc(j-start+1,4,track)=7; %Likely useless combinations of hitting a movie end and having a beginning or end
-                        end
+                        fxyc(j-start+1,4,track)=7; %Likely useless combinations of hitting a movie end and having a beginning or end
                     end
                     fxyc(j-start+1,1,track)=f(j);
                     fxyc(j-start+1,2,track)=(TraceX(i,f(j)));

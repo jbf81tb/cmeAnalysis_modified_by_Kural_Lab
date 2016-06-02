@@ -1,16 +1,17 @@
-function LongMultiMovieSplitAnalysis(movies,MaxSectionSize,newmovies,framegap)
+function sections = LongMultiMovieSplitAnalysis(movies,MaxSectionSize,newmovies,framegap)
+sections = zeros(1,length(movies));
 for im=1:length(movies)
     movie=movies{im};
     frames=length(imfinfo(movie));
-    sections=ceil(frames/(MaxSectionSize-1));
-    SectionSize=ceil(frames/sections);
-    start=zeros(sections,1);
-    stop=zeros(sections,1);
-    nmd = cell(sections,1);
-    nmn = cell(sections,1);
+    sections(im)=ceil(frames/(MaxSectionSize(im)-1));
+    SectionSize=ceil(frames/sections(im));
+    start=zeros(sections(im),1);
+    stop=zeros(sections(im),1);
+    nmd = cell(sections(im),1);
+    nmn = cell(sections(im),1);
     frame_rate = framegap(im);
     save(fullfile(newmovies{im},'frame_rate.mat'),'frame_rate');
-    for i=1:sections
+    for i=1:sections(im)
         if i==1
             start(i)=1;
         else
