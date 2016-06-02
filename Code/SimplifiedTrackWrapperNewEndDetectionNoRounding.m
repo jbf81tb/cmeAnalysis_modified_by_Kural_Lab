@@ -741,7 +741,7 @@ Threshfxyc=fxyc;
 Threshfxyc=CalculateLinRegParameters(endsize2,Threshfxyc);
 %save Comp2Traces.mat TraceX TraceY TraceZ TraceINT
 [save_loc, ~, ~] = fileparts(path);
-save(fullfile(save_loc, 'TempTraces.mat'), 'Threshfxyc');
+save(fullfile(save_loc, 'TempTraces.mat'), 'Threshfxyc','-v7.3');
 %save Flyfxyc.mat fxyc
 if mode==1
     ColorSpots(fxyc,file,newfile);
