@@ -1,5 +1,29 @@
 function LongMoviePostCME_osc(smd,omd,Threshs,sections)
+% LONGMOVIEPOSTCME_OSC Analyze results of cmeAnalysis
+%   Input:
+%       smd: split movie directory. String to the directory containing the
+%           split movies.
+%       omd: original movie directory. String to the directory containing
+%           original movies.
+%       Threshs: Vector containing thresholds for each movie. Usually 400.
+%       sections: A vector containing the number of sections each movie is
+%           broken into.
+% We found that the output from cmeAnalysis contains a lot of things we
+% didn't like, so we developed code to run over the data and do some
+% filtering, classification, and restructuring for us. This code also
+% recombines movies which have been broken into sections for memory
+% considerations. In the end, a giant 3D array still needs to be created,
+% so we recommended using a computer with at least 16GB of RAM, and more
+% might be necessary for especially long movies.
+%
+% Originally created by:
+% Scott Huber, Kural Group, Ohio State University,
+% huber.288@buckeyemail.osu.edu
+% Modified by:
+% Josh Ferguson, Kural Group, Ohio State University, ferguson.621@osu.edu
+%
 
+%% some file management
 tmpd = dir(fullfile(omd,'*.tif'));
 orig_movies = cell(length(tmpd),1);
 for i = 1:length(tmpd)
@@ -13,6 +37,7 @@ dirname = cell(movies,1);
 for i = 1:movies
     dirname{i} = fullfile(smd,tmpd(i).name);
 end
+%create paths to all the data
 SectionSize = zeros(movies,1);
 moviefol = cell(max(sections),movies);
 moviename = cell(max(sections),movies);
@@ -35,7 +60,7 @@ for i = 1:movies
         end
     end
 end
-
+%% perform secondary analysis
 for i9=1:movies
     [save_loc, trace_name, ~] = fileparts(orig_movies{i9});
     if exist(fullfile(save_loc,[trace_name,'.mat']),'file')
@@ -44,9 +69,11 @@ for i9=1:movies
     Thresh=Threshs(i9);
     for i = 1:sections(i9)
         if ~exist(fullfile(fileparts(paths{i,i9}),'TempTraces.mat'),'file')
+            %this is the meat of the analysis
             SimplifiedTrackWrapperNewEndDetectionNoRounding(paths{i,i9},Thresh,moviename{i,i9}, 4,1,0,.75);
         end
     end
+%% combine adjacent sections
     array=cell(sections(i9),1);
     SizeArray=zeros(sections(i9),3);
     start = zeros(sections(i9),1);
