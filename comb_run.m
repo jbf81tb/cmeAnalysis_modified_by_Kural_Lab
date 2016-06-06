@@ -1,9 +1,9 @@
 function comb_run(exp_name,varargin)
 %COMB_RUN Run cmeAnalysis on multiple files.
 % Takes 5 arguments.
-% 1) Path to experiment folder (string). Experiment folder should contain the folder
-% "orig_movies" and that should contain all of the movies you want to run
-% over.
+% 1) Path to experiment folder (string). Experiment folder should contain
+%    the folder "orig_movies" and that should contain all of the .tif movies
+%    you want to run over.
 % 2) Framegap of the movies. (default 1s)
 % 3) Threshold to apply to movies. (default 400)
 % 4) Section size. (default 500)
@@ -11,14 +11,17 @@ function comb_run(exp_name,varargin)
 %
 % Any argument may be a scalar or vector. Use a scalar if all the movies
 % share the necessary properties. Use a vector if you need to specify
-% particular properties for particular movies. The movies work in the order
-% of the 'dir' function, which can be different from the order that the
-% files are in the file explorer, especially if the filenames end in
-% numbers of different digit lengths.
+% particular properties for particular movies. The movies are run in the
+% order of the 'dir' function, which can be different from the order that
+% the files are in the file explorer, especially if the filenames end in
+% numbers of different digit lengths. (e.g. 8,9,10 vs 08,09,10 <-better)
+%
+% Josh Ferguson, Kural Group, Ohio State University, ferguson.621@osu.edu
+%
 %% Find out how many movies there are.
 omd = fullfile(exp_name,'orig_movies');
 tmpd = dir(fullfile(omd,'*.tif'));
-movies      = cell(length(tmpd),1);
+movies = cell(length(tmpd),1);
 %% Input checking
 switch nargin
     case 1
