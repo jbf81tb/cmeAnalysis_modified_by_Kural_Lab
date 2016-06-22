@@ -93,7 +93,7 @@ for i9=1:movies
             SizeArray(i,:)=[1,1,1];
         end
     end
-    Threshfxyc=zeros(max(SizeArray(:,1)),max(SizeArray(:,2)),sum(SizeArray(:,3)));%Initialize Threshfxyc with appropriate array size
+    Threshfxyc=zeros(max(SizeArray(:,1)),max(SizeArray(:,2)),sum(SizeArray(:,3)),'single');%Initialize Threshfxyc with appropriate array size
     index=1; %Keeps track of first open slot in Threshfxyc(~,~,:)
     maxfree=10;
     if sections(i9)>1
@@ -177,7 +177,7 @@ for i9=1:movies
             end
         end
     else
-        Threshfxyc=array{1};
+        Threshfxyc=single(array{1});
     end
     
     TraceFinalizationWOConnector(Threshfxyc,Thresh,orig_movies{i9},4,1,0,.75);
