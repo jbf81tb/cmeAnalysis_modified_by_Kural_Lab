@@ -1,27 +1,63 @@
-function comb_run_3D(exp_name,fg,tstacks,zstacks,varargin)
+function comb_run_3D(exp_name,tstacks,zstacks,varargin)
 %COMB_RUN_3D Perform cmeAnalysis on multiple 3D movies taken over time.
-%exp_name: folder where movies are. should have a 'background' folder and
-%a 'movies' folder
-%fg: frame gap for the movies. can be a vector if the movies have different
-%frame gaps. can be a scalar if they're all the same.
-%tstacks and zstacks: one should be there an integer, the other should be
-%empty
-%make: if not all the movies are good, you make have to 'make' without doing
-%so you can delete some before you 'do' without making
-%do: the main purpose of the function. usually true, unless for reasons
-%seen above
-%The last argument can be a threshold value. 400 is usually good, but can
-%be changed to something like 1000 if the movie is particularly bright.
+%{
+Movies should be designed in the following fashion.
+frame_1: time 1, zpos 1
+frame_2: time 1, zpos 2
+frame_3: time 1, zpos 3
+.
+.
+frame_zsize: time 1, zpos zsize
+frame_zsize+1: time 2, zpos 1
+frame_zsize+2: time 2, zpos 2
+.
+.
+frame_zsize*tsize: time tsize, zpos zsize
 
-if nargin<5
-    Th = 400;
-elseif nargin == 5
-    Th = varargin{1};
-end
-sectionsize = 500;
+exp_name: a string to the path where movies are. should contain a 'movies'
+   folder and in that folder should be all the .tif files.
+fg: frame gap for the movies. can be a vector if the movies have different
+   frame gaps. can be a scalar if they're all the same.
+tstacks and zstacks: can be a vector if they're different or a scalar if
+   they're all the same. If one is an empty vector, the other will be
+   automatically generated.
+Th: A threshold value. 400 is usually good, but can be changed
+   to something like 1000 if the movie is particularly bright.
+sectionsize: can be adjusted for memory considerations. Usually not
+   needed.
+%}
+
 md = fullfile(exp_name,'movies');
 mdir = dir(fullfile(md,'*.tif'));
 nm = length(mdir);
+if length(tstacks)==1
+    tstacks = tstacks*ones(nm,1);
+end
+if length(zstacks)==1
+    zstacks = zstacks*ones(nm,1);
+end
+
+switch nargin
+    case 3
+        fg = 1;
+        Th = 400;
+        sectionsize = 500;
+    case 4
+        fg = varargin{1};
+        Th = 400;
+        sectionsize = 500;
+    case 5
+        fg = varargin{1};
+        Th = varargin{2};
+        sectionsize = 500;
+    case 6
+        fg = varargin{1};
+        Th = varargin{2};
+        sectionsize = varargin{3};
+end
+
+mlps = zeros(nm,1);
+zlps = zeros(nm,1);
 for mov = 1:nm
     mov_fol = fullfile(md,mdir(mov).name(1:end-4));
     mkdir(mov_fol);
@@ -29,41 +65,41 @@ for mov = 1:nm
     mkdir(omd)
     smd = fullfile(mov_fol,'split_movies');
     mkdir(smd);
-    if isempty(tstacks)
-        mlps = length(imfinfo(fullfile(md,mdir(mov).name)))/zstacks;
-        zlps = zstacks;
-    elseif isempty(zstacks)
-        zlps = length(imfinfo(fullfile(md,mdir(mov).name)))/tstacks;
-        mlps = tstacks;
+    if isempty(tstacks(mov))
+        mlps(mov) = length(imfinfo(fullfile(md,mdir(mov).name)))/zstacks(mov);
+        zlps(mov) = zstacks(mov);
+    elseif isempty(zstacks(mov))
+        zlps(mov) = length(imfinfo(fullfile(md,mdir(mov).name)))/tstacks(mov);
+        mlps(mov) = tstacks(mov);
     else
-        mlps = tstacks;
-        zlps = zstacks;
+        mlps(mov) = tstacks(mov);
+        zlps(mov) = zstacks(mov);
     end
     
-    for st = 1:zlps
+    for st = 1:zlps(mov)
         if exist(fullfile(omd,['Stack_' num2str(st) '.tif']),'file'), continue; end
-        for fr = 1:mlps
-            frame = imread(fullfile(md,mdir(mov).name),(fr-1)*zlps+st);
+        for fr = 1:mlps(mov)
+            frame = imread(fullfile(md,mdir(mov).name),(fr-1)*zlps(mov)+st);
             imwrite(frame,fullfile(omd,['Stack_' num2str(st) '.tif']),'tif','writemode','append');
         end
     end
     
     if length(fg)==1
-        framegap = fg*ones(zlps,1);
+        framegap = fg*ones(zlps(mov),1);
     else
-        framegap = fg(mov)*ones(zlps,1);
+        framegap = fg(mov)*ones(zlps(mov),1);
     end
     if length(Th)==1
-        Threshs = Th*ones(zlps,1);
+        Threshs = Th*ones(zlps(mov),1);
     else
-        Threshs = Th(mov)*ones(zlps,1);
+        Threshs = Th(mov)*ones(zlps(mov),1);
     end
-    sections = ones(zlps,1);
-    
+    sections = ones(zlps(mov),1);
+
     tmpd = dir(fullfile(omd,'*.tif'));
     movies      = cell(length(tmpd),1);
     splitmovies = cell(length(tmpd),1);
-    
+
     for i = 1:length(movies)
         movies{i} = fullfile(omd,tmpd(i).name);
         splitmovies{i} = fullfile(smd,tmpd(i).name(1:(end-4)));

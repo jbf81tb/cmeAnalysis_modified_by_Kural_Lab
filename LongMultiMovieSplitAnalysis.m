@@ -4,7 +4,8 @@ function sections = LongMultiMovieSplitAnalysis(movies,MaxSectionSize,newmovies,
 %       movies: Cell array of strings of the file path of movies.
 %       MaxSectionSize: Largest sections allowed to be analyzed. Movies
 %           will be equally dividied into multiple parts such that the size
-%           of each is under the MaxSectionSize.
+%           of each is under the MaxSectionSize. Can put 'inf' to just get
+%           one section.
 %       newmovies: Cell array of strings of the file path of new movies.
 %           (Yes, even if movies don't need to be split in parts they are
 %           still copied to a new location. This analysis is not friendly
@@ -25,7 +26,11 @@ sections = zeros(1,length(movies));
 for im=1:length(movies)
     movie=movies{im};
     frames=length(imfinfo(movie));
-    sections(im)=ceil(frames/(MaxSectionSize(im)-1));
+    if isinf(MaxSectionSize(im))
+        sections(im)=1;
+    else
+        sections(im)=ceil(frames/(MaxSectionSize(im)-1));
+    end
     SectionSize=ceil(frames/sections(im));
     start=zeros(sections(im),1);
     stop=zeros(sections(im),1);
