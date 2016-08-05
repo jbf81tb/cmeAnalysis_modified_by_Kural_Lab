@@ -5,14 +5,15 @@ Movies should be designed in the following fashion.
 frame_1: time 1, zpos 1
 frame_2: time 1, zpos 2
 frame_3: time 1, zpos 3
-.
-.
+...
 frame_zsize: time 1, zpos zsize
 frame_zsize+1: time 2, zpos 1
 frame_zsize+2: time 2, zpos 2
-.
-.
+...
 frame_zsize*tsize: time tsize, zpos zsize
+
+This is the default output of NIS-Elemtents Viewer when making a multi-page
+    tif
 
 exp_name: a string to the path where movies are. should contain a 'movies'
    folder and in that folder should be all the .tif files.
@@ -58,17 +59,17 @@ end
 
 mlps = zeros(nm,1);
 zlps = zeros(nm,1);
-for mov = 1:nm
+for mov = 2:nm %%%%%%%%%%%%%%% CHANGE BACK TO 1 %%%%%%%%%%%%%%
     mov_fol = fullfile(md,mdir(mov).name(1:end-4));
     mkdir(mov_fol);
     omd = fullfile(mov_fol,'orig_movies');
     mkdir(omd)
     smd = fullfile(mov_fol,'split_movies');
     mkdir(smd);
-    if isempty(tstacks(mov))
+    if isempty(tstacks)
         mlps(mov) = length(imfinfo(fullfile(md,mdir(mov).name)))/zstacks(mov);
         zlps(mov) = zstacks(mov);
-    elseif isempty(zstacks(mov))
+    elseif isempty(zstacks)
         zlps(mov) = length(imfinfo(fullfile(md,mdir(mov).name)))/tstacks(mov);
         mlps(mov) = tstacks(mov);
     else
@@ -83,7 +84,7 @@ for mov = 1:nm
             imwrite(frame,fullfile(omd,['Stack_' num2str(st) '.tif']),'tif','writemode','append');
         end
     end
-    
+
     if length(fg)==1
         framegap = fg*ones(zlps(mov),1);
     else
@@ -94,7 +95,11 @@ for mov = 1:nm
     else
         Threshs = Th(mov)*ones(zlps(mov),1);
     end
-    sections = ones(zlps(mov),1);
+    if length(sectionsize)==1
+        secs = sectionsize*ones(zlps(mov),1);
+    else
+        secs = sectionsize(mov)*ones(zlps(mov),1);
+    end
 
     tmpd = dir(fullfile(omd,'*.tif'));
     movies      = cell(length(tmpd),1);
@@ -106,7 +111,11 @@ for mov = 1:nm
         if ~exist(splitmovies{i},'dir'), mkdir(splitmovies{i}); end
     end
 
-    LongMultiMovieSplitAnalysis(movies,sectionsize,splitmovies,framegap);
+    sections = LongMultiMovieSplitAnalysis(movies,secs,splitmovies,framegap);
     LongMoviePostCME_osc(smd,omd,Threshs,sections);
+    disp('Progress at:')
+    disp(datetime('now'))
+    fprintf('%03u %%',mov/nm*100)
 end
+
 end

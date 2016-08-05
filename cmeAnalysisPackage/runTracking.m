@@ -57,7 +57,7 @@ if isempty(settings)
 end
 
 % Run tracker on each data set
-parfor i = 1:length(data)
+for i = 1:length(data)
     if ~(exist([data(i).source 'Tracking'], 'dir')==7) || overwrite
         fprintf('Running tracker on %s\n', getShortPath(data(i)));
         main(data(i), settings, fileName, detectionFile, frames);

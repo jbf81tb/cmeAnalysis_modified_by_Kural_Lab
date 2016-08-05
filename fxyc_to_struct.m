@@ -37,7 +37,7 @@ i = 0; %need to count structure indices different from array indices.
 for j = 1:size(fxyc,3)
     during = squeeze(fxyc(:,1,j)>0);
     if isempty(during), continue; end
-    if no4s && fxyc(1,4,j)==4,continue; end
+    if no4s && (fxyc(1,4,j)==4 || fxyc(1,4,j)==7),continue; end
     i = i+1;
     fxyc_struct(i).frame = fxyc(during,1,j);%initial filling of structure
     fxyc_struct(i).xpos = fxyc(during,2,j);
