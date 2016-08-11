@@ -59,7 +59,7 @@ end
 
 mlps = zeros(nm,1);
 zlps = zeros(nm,1);
-for mov = 2:nm %%%%%%%%%%%%%%% CHANGE BACK TO 1 %%%%%%%%%%%%%%
+for mov = 1:nm
     mov_fol = fullfile(md,mdir(mov).name(1:end-4));
     mkdir(mov_fol);
     omd = fullfile(mov_fol,'orig_movies');

@@ -12,7 +12,9 @@ function [bx,by,mask] = thresholding(J,Thresh)
        end
        boundp = find(p >= mean(p(p>0))); %get the biggest boundaries of parents
        boundc = find(c>0); %save the children
-       mask = cell(1,length(boundp)+length(boundc));  by = cell(1,length(boundp));  bx = cell(1,length(boundp));
+       mask = cell(1,length(boundp)+length(boundc));  
+       by = cell(1,length(boundp));  
+       bx = cell(1,length(boundp));
        for j = 1:length(boundp)+length(boundc)
            if j<=length(boundp)
                mask{j} = (L==boundp(j));
