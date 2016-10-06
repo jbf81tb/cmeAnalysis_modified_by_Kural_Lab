@@ -24,7 +24,7 @@ else
     monitor = false;
 end
 ints = {fxyc_struct.int}; %reduce text in code.
-prange = 12/frame_rate; %develope a frame range of 12 seconds
+prange = 12/frame_rate; %develop a frame range of 12 seconds
 %we want at least points to fit the line, so if the frame rate is greater
 %than 4 seconds, the frame range will increase beyond 12 seconds.
 if prange<3, prange=3; end 
@@ -41,12 +41,12 @@ for i = 1:length(ints)
     lint = length(int);
     intdif = zeros(lint,1); 
     if lint<=prange %if the trace is too short, skip it.
-        fxyc_struct(i).sl = intdif;
+        fxyc_struct(i).sl = single(intdif);
         continue;
     end
     %this is where we perform manual least-squares fitting
     for j = (rear+1):(lint-front)
-        sub = (max(1,j-rear):min(lint,(j+front)));
+        sub = (j-rear):(j+front);
         curmax = max(int)-bkgrd;
         tmp = (int(sub)-bkgrd)/curmax;
         tmpx = sub*frame_rate;
@@ -55,7 +55,7 @@ for i = 1:length(ints)
         denom = length(tmpx)*sum(tmpx.^2)-sum(tmpx)^2;
         intdif(j) = numer/denom;
     end
-    fxyc_struct(i).sl = intdif; %add data to existing structure.
+    fxyc_struct(i).sl = single(intdif); %add data to existing structure.
     if monitor, fprintf('\b\b\b\b%3i%%',ceil(100*i/length(ints))); end
 end
 if monitor, fprintf('\b\b\b\b%3i%%\n',100); end

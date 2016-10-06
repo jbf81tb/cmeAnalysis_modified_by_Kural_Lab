@@ -4,7 +4,7 @@ function comb_run(exp_name,varargin)
 % 1) Path to experiment folder (string). Experiment folder should contain
 %    the folder "orig_movies" and that should contain all of the .tif movies
 %    you want to run over.
-% 2) Framegap of the movies. (default 1s)
+% 2) Framegap of the movies (in seconds). (default 1s)
 % 3) Threshold to apply to movies. (default 400)
 % 4) Section size. (default 500)
 %        This variable exists for memory considerations.
@@ -80,7 +80,11 @@ end
 % Actual Execution
 sections = LongMultiMovieSplitAnalysis(movies,sectionsize,splitmovies,framegap);
 clear functions
+% sections = ones(13,1);
 LongMoviePostCME_osc(smd,omd,Threshs,sections);
 disp('Finished at:');
 disp(datetime('now'));
+% disp('***************************************************')
+% disp('REMEMBER TO CHANGE IT BACK')
+% disp('*************************************************')
 end
