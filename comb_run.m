@@ -75,12 +75,14 @@ splitmovies = cell(length(tmpd),1);
 for i = 1:length(movies)
     movies{i} = fullfile(omd,tmpd(i).name);
     splitmovies{i} = fullfile(smd,tmpd(i).name(1:(end-4)));
-    mkdir(splitmovies{i});
+    if ~exist(splitmovies{i},'dir')
+        mkdir(splitmovies{i});
+    end
 end
 % Actual Execution
 sections = LongMultiMovieSplitAnalysis(movies,sectionsize,splitmovies,framegap);
 clear functions
-% sections = ones(13,1);
+% sections = [2 2 2 2 4 4 3 3 4 4];
 LongMoviePostCME_osc(smd,omd,Threshs,sections);
 disp('Finished at:');
 disp(datetime('now'));

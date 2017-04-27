@@ -13,7 +13,7 @@ frame_zsize+2: time 2, zpos 2
 frame_zsize*tsize: time tsize, zpos zsize
 
 This is the default output of NIS-Elemtents Viewer when making a multi-page
-    tif
+    tif from a 3Dt movie.
 
 exp_name: a string to the path where movies are. should contain a 'movies'
    folder and in that folder should be all the .tif files.

@@ -32,26 +32,26 @@ fxyc=RedoEndDetection(fxyc);
 
 
 fxyc=CalculateFutureNNOptimized(fxyc); %Calculate NN distances for use in end decision
-for i1=1:size(fxyc,3) %Make end detection more lax if there is nothing around for the spot the be confused with
-    if ~isempty(find(fxyc(:,1,i1),1))
-    used=find(fxyc(:,1,i1));
-    if fxyc(used(1),4,i1)==2
-        if fxyc(used(1),12,i1)>7 && fxyc(used(1),13,i1)>5
-            for i2=1:length(used)
-                fxyc(used(i2),4,i1)=3;
-            end
-        end
-    end
-    if fxyc(used(length(used)),4,i1)==1
-        if fxyc(used(length(used)),12,i1)>7 && fxyc(used(length(used)),13,i1)>5
-            for i2=1:length(used)
-                fxyc(used(i2),4,i1)=3;
-            end
-        end
-    end
-    end
-end
-
+% for i1=1:size(fxyc,3) %Make end detection more lax if there is nothing around for the spot the be confused with
+%     if ~isempty(find(fxyc(:,1,i1),1))
+%     used=find(fxyc(:,1,i1));
+%     if fxyc(used(1),4,i1)==2
+%         if fxyc(used(1),12,i1)>7 && fxyc(used(1),13,i1)>5
+%             for i2=1:length(used)
+%                 fxyc(used(i2),4,i1)=3;
+%             end
+%         end
+%     end
+%     if fxyc(used(length(used)),4,i1)==1
+%         if fxyc(used(length(used)),12,i1)>7 && fxyc(used(length(used)),13,i1)>5
+%             for i2=1:length(used)
+%                 fxyc(used(i2),4,i1)=3;
+%             end
+%         end
+%     end
+%     end
+% end
+fxyc(:,6:13,:) = [];
 Threshfxyc=fxyc; %#ok<NASGU>
 % [TraceX,TraceY,TraceZ,TraceINT]=fxyc2TraceXY(fxyc,frames,3); %If non green traces are mostly correct use 3, if mostly only green are use 2
 % [TraceX,TraceY,TraceZ,TraceINT]=HoleFiller(TraceX,TraceY,TraceZ,TraceINT);

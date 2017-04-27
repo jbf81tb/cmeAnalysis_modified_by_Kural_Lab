@@ -63,6 +63,7 @@ for im=1:length(movies)
         %to work the way it was meant to. As it is, it works with all the
         %files included here.
         cmeAnalysis('Parameters', [1.45, 100, 16], 'condDir', fullfile(newmovies{im},['Section',num2str(i)]), 'chNames', {'ch1'}, 'markers', {'egfp'}, 'Master', 1);
+%         disp('REMEMBER TO CHANGE BACK CMEANALYSIS')
     end
 end
 end

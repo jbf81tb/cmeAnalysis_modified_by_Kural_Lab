@@ -1,4 +1,4 @@
-function SimplifiedTrackWrapperNewEndDetectionNoRounding(path,Thresh,file,endsize2,enderrors,slopebound,R2Bound)
+function SimplifiedTrackWrapperNewEndDetectionNoRounding(path,Thresh,file,endsize2,enderrors,slopebound,R2Bound,maskfile)
 %This program takes the tracks produces by cmeAnalysis and separates the likely good ones from the bad ones and converts them
 %into the format we use.  You'll have to run this twice--first with
 %Thresh=0, then run ThreshFinder, then run it again with the Thresh you
@@ -79,7 +79,7 @@ MaxBlankFrac=3/4; %If there are more than this fraction of points under the Thre
 Stracks(1)=445;
 singlemode=false;
 if singlemode==false
-[TraceX,TraceY,TraceINT,TraceF]=TrackDecoder(path,frames,Thresh,dThresh,aThresh);
+[TraceX,TraceY,TraceINT,TraceF]=TrackDecoder(path,frames,Thresh,dThresh,aThresh,maskfile);
 else
 [TraceX,TraceY,TraceINT]=TrackDecoderS(path,frames,Thresh,dThresh,aThresh,Stracks);
 end

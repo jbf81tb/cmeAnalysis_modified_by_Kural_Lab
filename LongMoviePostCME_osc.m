@@ -70,7 +70,7 @@ for i9=1:movies
     for i = 1:sections(i9)
         if ~exist(fullfile(fileparts(paths{i,i9}),'TempTraces.mat'),'file')
             %this is the meat of the analysis
-            SimplifiedTrackWrapperNewEndDetectionNoRounding(paths{i,i9},Thresh,moviename{i,i9}, 4,1,0,.75);
+            SimplifiedTrackWrapperNewEndDetectionNoRounding(paths{i,i9},Thresh,moviename{i,i9}, 4,1,0,.75,dirname{i9});
         end
     end
 %% combine adjacent sections
