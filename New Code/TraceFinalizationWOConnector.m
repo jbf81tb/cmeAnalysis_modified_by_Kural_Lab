@@ -51,7 +51,9 @@ fxyc=CalculateFutureNNOptimized(fxyc); %Calculate NN distances for use in end de
 %     end
 %     end
 % end
-fxyc(:,6:13,:) = [];
+if size(fxyc,2)==13
+    fxyc(:,6:13,:) = [];
+end
 Threshfxyc=fxyc; %#ok<NASGU>
 % [TraceX,TraceY,TraceZ,TraceINT]=fxyc2TraceXY(fxyc,frames,3); %If non green traces are mostly correct use 3, if mostly only green are use 2
 % [TraceX,TraceY,TraceZ,TraceINT]=HoleFiller(TraceX,TraceY,TraceZ,TraceINT);

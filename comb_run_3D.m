@@ -117,5 +117,4 @@ for mov = 1:nm
     disp(datetime('now'))
     fprintf('%03u %%',mov/nm*100)
 end
-
 end

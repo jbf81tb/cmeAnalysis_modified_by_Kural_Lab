@@ -37,6 +37,10 @@ front = ceil(forwardp*(prange-1)); %frames forward in time
 rear = floor((1-forwardp)*(prange-1)); %frame backward in time
 if monitor, fprintf('Percent Complete: %3i%%',0); end
 for i = 1:length(ints)
+    if isempty(ints{i})
+        fxyc_struct(i).sl = [];
+        continue;
+    end
     int = ints{i}; %reduce text in code.
     lint = length(int);
     intdif = zeros(lint,1); 

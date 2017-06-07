@@ -86,7 +86,7 @@ for i9=1:movies
         end
         array{i}=Threshfxyc;
         if length(size(Threshfxyc))==2
-            SizeArray(i,:)=[size(Threshfxyc,1), size(Threshfxyc,2), 1];
+            SizeArray(i,:)=[size(Threshfxyc,1), size(Threshfxyc,2), 0];
         elseif length(size(Threshfxyc))==3
             SizeArray(i,:)=size(Threshfxyc);
         else
@@ -101,7 +101,9 @@ for i9=1:movies
             fxyc1=array{i}; %Check structure syntax
             fxyc2=array{i+1};
             [A1,A2,A3]=size(fxyc1);
-            [~,~,B3]=size(fxyc2);
+            if A1==0 && A2==0, A3=0; end
+            [B1,B2,B3]=size(fxyc2);
+            if B1==0 && B2==0, B3=0; end
             if i==1
                 routingnew=zeros(A3,1);
             end
@@ -143,9 +145,8 @@ for i9=1:movies
                 end
                 if found==0 %No corresponding pit was found
                     for i3=1:length(used)
-                        for i4=1:A2
+                        for i4=1:max(A2,B2)
                             Threshfxyc(i3,i4,index)=fxyc2(used(i3),i4,i2);
-                            
                         end
                     end
                     routingnew(i2)=index;
@@ -157,7 +158,7 @@ for i9=1:movies
                         free=C1+1;
                     end
                     for i3=2:length(used)
-                        for i4=1:A2
+                        for i4=1:max(A2,B2)
                             Threshfxyc(free(1),i4,routingold(found))=fxyc2(used(i3),i4,i2);
                             
                         end
