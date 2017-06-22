@@ -736,8 +736,8 @@ Endsfxyc=[];
 % end
 % close(h)
 Threshfxyc=fxyc;
-[TraceX,TraceY,TraceZ,TraceINT]=fxyc2TraceXY(fxyc,frames,3); %If non green traces are mostly correct use 3, if mostly only green are use 2
-[TraceX,TraceY,TraceZ,TraceINT]=HoleFiller(TraceX,TraceY,TraceZ,TraceINT);
+% [TraceX,TraceY,TraceZ,TraceINT]=fxyc2TraceXY(fxyc,frames,3); %If non green traces are mostly correct use 3, if mostly only green are use 2
+% [TraceX,TraceY,TraceZ,TraceINT]=HoleFiller(TraceX,TraceY,TraceZ,TraceINT);
 Threshfxyc=CalculateLinRegParameters(endsize2,Threshfxyc);
 %save Comp2Traces.mat TraceX TraceY TraceZ TraceINT
 [save_loc, ~, ~] = fileparts(path);

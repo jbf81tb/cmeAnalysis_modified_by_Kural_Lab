@@ -53,7 +53,9 @@ for im=1:length(movies)
                        'ch1');
         mkdir(nmd{i});
         nmn{i} = fullfile(nmd{i},['section',num2str(i),'.tif']); %new movie name
-        MovieShortenerF(movie,nmn{i},start(i),stop(i))
+        if ~exist(nmn{i},'file')
+            MovieShortenerF(movie,nmn{i},start(i),stop(i))
+        end
         %after years of working with cmeAnalysis we finally realized there
         %was a better way to do this, but as it is, cmeAnalysis has been
         %lightly edited to allow this kind of input, so this will not work

@@ -31,7 +31,7 @@ elseif nargin==2
         fprintf('Invalid input. Proceeding with removal of 4''s\nRun again with false or "w4s" to include 4"s');
     end
 end
-fxyc_struct = struct('frame',[],'xpos',[],'ypos',[],'class',[],'int',[]);
+fxyc_struct = struct('frame',[],'xpos',[],'ypos',[],'class',[],'int',[],'lt',[]);
 if isempty(fxyc), return; end
 i = 0; %need to count structure indices different from array indices.
 for j = 1:size(fxyc,3)
