@@ -24,19 +24,28 @@ else
     monitor = false;
 end
 ints = {fxyc_struct.int}; %reduce text in code.
-prange = 12/frame_rate; %develop a frame range of 12 seconds
-%we want at least points to fit the line, so if the frame rate is greater
-%than 4 seconds, the frame range will increase beyond 12 seconds.
-if prange<3, prange=3; end 
-%originally designed to analyze data using no future knowledge, you can
-%adjust the percent of the frame range that looks forward in time.
-%adjusting this should change the shape of histograms, so maintain
-%consistency while comparing analyses.
-forwardp = .25;
-front = ceil(forwardp*(prange-1)); %frames forward in time
-rear = floor((1-forwardp)*(prange-1)); %frame backward in time
+if isscalar(frame_rate)
+    prange = 12/frame_rate; %develop a frame range of 12 seconds
+    %we want at least points to fit the line, so if the frame rate is greater
+    %than 4 seconds, the frame range will increase beyond 12 seconds.
+    if prange<3, prange=3; end
+    %originally designed to analyze data using no future knowledge, you can
+    %adjust the percent of the frame range that looks forward in time.
+    %adjusting this should change the shape of histograms, so maintain
+    %consistency while comparing analyses.
+    forwardp = .25;
+    front = ceil(forwardp*(prange-1)); %frames forward in time
+    rear = floor((1-forwardp)*(prange-1)); %frame backward in time
+end
 if monitor, fprintf('Percent Complete: %3i%%',0); end
 for i = 1:length(ints)
+    if ~isscalar(frame_rate)
+        prange = 12/frame_rate(i);
+        if prange<3, prange=3; end
+        forwardp = .25;
+        front = ceil(forwardp*(prange-1));
+        rear = floor((1-forwardp)*(prange-1));
+    end
     if isempty(ints{i})
         fxyc_struct(i).sl = [];
         continue;
@@ -53,7 +62,11 @@ for i = 1:length(ints)
         sub = (j-rear):(j+front);
         curmax = max(int)-bkgrd;
         tmp = (int(sub)-bkgrd)/curmax;
-        tmpx = sub*frame_rate;
+        if isscalar(frame_rate)
+            tmpx = sub*frame_rate;
+        else
+            tmpx = sub*frame_rate(i);
+        end
         tmpy = tmp';
         numer = length(tmpx)*sum(tmpx.*tmpy)-sum(tmpx)*sum(tmpy);
         denom = length(tmpx)*sum(tmpx.^2)-sum(tmpx)^2;

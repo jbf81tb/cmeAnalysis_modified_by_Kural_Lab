@@ -1,6 +1,6 @@
 function comb_run(exp_name,varargin)
 %COMB_RUN Run cmeAnalysis on multiple files.
-% Takes 5 arguments.
+% Takes 4 arguments.
 % 1) Path to experiment folder (string). Experiment folder should contain
 %    the folder "orig_movies" and that should contain all of the .tif movies
 %    you want to run over.
