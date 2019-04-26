@@ -1,4 +1,4 @@
-function [TraceX,TraceY,TraceINT,TraceF]=TrackDecoder(path,frames,Thresh,dThresh,aThresh)
+function [TraceX,TraceY,TraceINT,TraceF]=TrackDecoder(path,frames,Thresh,dThresh,aThresh,file)
 
 load(path) %automate file detection
 if isempty(tracks), 
@@ -8,6 +8,27 @@ if isempty(tracks),
     TraceF = [];
     return; 
 end
+mask = [];
+if exist([file '_Mask.tif'],'file')
+    mask = ~imread([file '_Mask.tif']);
+end
+if ~isempty(mask)
+    toss = false(1,length(tracks));
+    for i = 1:length(tracks);
+        in = 0;
+        for j = 1:length(tracks(i))
+            if mask(ceil(tracks(i).x(j)),ceil(tracks(i).y(j)))
+                in = in + 1;
+            end
+        end
+        if in == 0
+            toss(i) = true;
+        end
+    end
+    tracks(toss) = [];
+    disp(['Number of traces outside mask: ' num2str(sum(toss))]);
+end
+
 [~,TOTtraces]=size(tracks);
 
 tracksx=table({tracks.x}.','VariableNames',{'x'});

@@ -1,4 +1,4 @@
-function TraceFinalizationWOConnector(fxyc,Thresh,file,endsize2,~,slopebound,R2Bound)
+function TraceFinalizationWOConnectorSplitter(fxyc,Thresh,file,endsize2,~,slopebound,R2Bound)
 
 % frames=length(imfinfo(file));
 % %Thresh=0; %Run first with a conservative number (~200 maybe) then manually find minimum intensity you can see.
@@ -26,7 +26,7 @@ for i1=1:length(fxyc(1,1,:)) %Estimate background intensity by averaging the min
 end
 background=mean(BackgroundSample);
 backgroundSD=sqrt(var(BackgroundSample));
-fxyc=TrackSplitter(fxyc,Thresh,slopebound,R2Bound,endsize2,background,backgroundSD); %split any traces that have suspicious drops in intensity in the middle or before the beginning or end
+%fxyc=TrackSplitter(fxyc,Thresh,slopebound,R2Bound,endsize2,background,backgroundSD); %split any traces that have suspicious drops in intensity in the middle or before the beginning or end
 fxyc=RedoEndDetection(fxyc);
 
 

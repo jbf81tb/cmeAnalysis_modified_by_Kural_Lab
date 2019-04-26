@@ -1,4 +1,4 @@
-function LongMoviePostCME_osc(smd,omd,Threshs,sections)
+function LongMoviePostCME_osc_NS(smd,omd,Threshs,sections)
 % LONGMOVIEPOSTCME_OSC Analyze results of cmeAnalysis
 %   Input:
 %       smd: split movie directory. String to the directory containing the
@@ -181,6 +181,6 @@ for i9=1:movies
         Threshfxyc=single(array{1});
     end
     
-    TraceFinalizationWOConnector(Threshfxyc,Thresh,orig_movies{i9},4,1,0,.75);
+    TraceFinalizationWOConnectorSplitter(Threshfxyc,Thresh,orig_movies{i9},4,1,0,.75);
 end
 end

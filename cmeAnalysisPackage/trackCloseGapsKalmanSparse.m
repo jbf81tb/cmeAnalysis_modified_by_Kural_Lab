@@ -425,9 +425,13 @@ for iFrame = 1 : numFramesEff
             nnDist = nnDist(:,2);
 
         end
-
+        try
         %store nearest neighbor distances in matrix
         nnDistLinkedFeat(~isnan(nnDistLinkedFeat(:,iFrame)),iFrame) = nnDist;
+        catch ME
+            save everything.mat
+            rethrow(ME)
+        end
 
     end
 

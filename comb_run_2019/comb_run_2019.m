@@ -1,6 +1,6 @@
-function comb_run(exp_name,varargin)
+function comb_run_2019(exp_name,varargin)
 %COMB_RUN Run cmeAnalysis on multiple files.
-% Takes 4 arguments.
+% Takes 5 arguments.
 % 1) Path to experiment folder (string). Experiment folder should contain
 %    the folder "orig_movies" and that should contain all of the .tif movies
 %    you want to run over.
@@ -75,15 +75,13 @@ splitmovies = cell(length(tmpd),1);
 for i = 1:length(movies)
     movies{i} = fullfile(omd,tmpd(i).name);
     splitmovies{i} = fullfile(smd,tmpd(i).name(1:(end-4)));
-    if ~exist(splitmovies{i},'dir')
-        mkdir(splitmovies{i});
-    end
+    mkdir(splitmovies{i});
 end
 % Actual Execution
 sections = LongMultiMovieSplitAnalysis(movies,sectionsize,splitmovies,framegap);
 clear functions
-% sections = [2 2 2 2 4 4 3 3 4 4];
-LongMoviePostCME_osc(smd,omd,Threshs,sections);
+ %sections = [2 2 3 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2];
+LongMoviePostCME_osc_Struct_2019(smd,omd,Threshs,sections,framegap);
 disp('Finished at:');
 disp(datetime('now'));
 % disp('***************************************************')

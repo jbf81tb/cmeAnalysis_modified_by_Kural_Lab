@@ -1,4 +1,4 @@
-function LongMoviePostCME_osc(smd,omd,Threshs,sections)
+function LongMoviePostCME_osc_2019(smd,omd,Threshs,sections,framegap)
 % LONGMOVIEPOSTCME_OSC Analyze results of cmeAnalysis
 %   Input:
 %       smd: split movie directory. String to the directory containing the
@@ -70,7 +70,7 @@ for i9=1:movies
     for i = 1:sections(i9)
         if ~exist(fullfile(fileparts(paths{i,i9}),'TempTraces.mat'),'file')
             %this is the meat of the analysis
-            SimplifiedTrackWrapperNewEndDetectionNoRounding(paths{i,i9},Thresh,moviename{i,i9}, 4,1,0,.75,dirname{i9});
+            TrackWrapper2019(paths{i,i9},moviename{i,i9});
         end
     end
 %% combine adjacent sections
@@ -181,6 +181,6 @@ for i9=1:movies
         Threshfxyc=single(array{1});
     end
     
-    TraceFinalizationWOConnector(Threshfxyc,Thresh,orig_movies{i9},4,1,0,.75);
+    TraceFinalization_2019(Threshfxyc,orig_movies{i9},framegap(i9));
 end
 end

@@ -31,7 +31,7 @@ elseif nargin==2
         fprintf('Invalid input. Proceeding with removal of 4''s\nRun again with false or "w4s" to include 4"s');
     end
 end
-fxyc_struct = struct('frame',[],'xpos',[],'ypos',[],'class',[],'int',[]);
+fxyc_struct = struct('frame',[],'xpos',[],'ypos',[],'class',[],'int',[],'lt',[]);
 if isempty(fxyc), return; end
 i = 0; %need to count structure indices different from array indices.
 for j = 1:size(fxyc,3)
@@ -39,11 +39,11 @@ for j = 1:size(fxyc,3)
     if isempty(during), continue; end
     if no4s && (fxyc(1,4,j)==4 || fxyc(1,4,j)==7),continue; end
     i = i+1;
-    fxyc_struct(i).frame = fxyc(during,1,j);%initial filling of structure
-    fxyc_struct(i).xpos = fxyc(during,2,j);
-    fxyc_struct(i).ypos = fxyc(during,3,j);
-    fxyc_struct(i).class = fxyc(1,4,j);
-    fxyc_struct(i).int = fxyc(during,5,j);
+    fxyc_struct(i).frame = single(fxyc(during,1,j));%initial filling of structure
+    fxyc_struct(i).xpos = single(fxyc(during,2,j));
+    fxyc_struct(i).ypos = single(fxyc(during,3,j));
+    fxyc_struct(i).class = single(fxyc(1,4,j));
+    fxyc_struct(i).int = single(fxyc(during,5,j));
     if any(fxyc_struct(i).int==0) %prime for gap filling
         fixed = fxyc_struct(i).int~=0;
         fxyc_struct(i).frame = fxyc_struct(i).frame(fixed);

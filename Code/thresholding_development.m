@@ -44,8 +44,8 @@ while k ~= 1
     figure('units','normalized','outerposition',[0 0 1 1]);
     colormap('gray');
     
-    for idummy = 1:36
-        i=floor(stacks/36)*idummy;
+    for idummy = 1:ceil(sqrt(stacks))
+        i=floor(stacks/ceil(sqrt(stacks)))*(idummy-1)+1;
         ah = subplot(ceil(sqrt(stacks)),ceil(sqrt(stacks)),i);
         imagesc(J(:,:,i));
         hold on; %draw the boundaries on top of the image

@@ -39,8 +39,8 @@ end
 p.ti0 = 0; % working distance has no effect under ideal conditions
 p.ni0 = 1.518;
 p.ni = 1.518;
-p.tg0 = 0.17e-3;
-p.tg = 0.17e-3;
+p.tg0 = 0.15e-3;
+p.tg = 0.15e-3;
 p.ng0 = 1.515;
 p.ng = 1.515;
 p.ns = 1.33;
